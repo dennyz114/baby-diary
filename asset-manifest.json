@@ -1,16 +1,15 @@
 {
   "files": {
     "main.css": "/baby-diary/static/css/main.073c9b0a.css",
-    "main.js": "/baby-diary/static/js/main.224d3763.js",
+    "main.js": "/baby-diary/static/js/main.fd67b7d2.js",
     "static/js/787.9e32fc62.chunk.js": "/baby-diary/static/js/787.9e32fc62.chunk.js",
-    "static/media/logo.svg": "/baby-diary/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/baby-diary/index.html",
     "main.073c9b0a.css.map": "/baby-diary/static/css/main.073c9b0a.css.map",
-    "main.224d3763.js.map": "/baby-diary/static/js/main.224d3763.js.map",
+    "main.fd67b7d2.js.map": "/baby-diary/static/js/main.fd67b7d2.js.map",
     "787.9e32fc62.chunk.js.map": "/baby-diary/static/js/787.9e32fc62.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.224d3763.js"
+    "static/js/main.fd67b7d2.js"
   ]
 }
