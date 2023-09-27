@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import AppRoutes from './AppRoutes'
-import NavigationBar from './components/navigationBar/NavigationBar'
+import NavigationBar from './components/navigationBar'
 
 function App() {
   return (

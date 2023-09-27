@@ -6,6 +6,7 @@ import InvalidRoute from './components/InvalidRoute'
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<DiaryItems />}/>
+    <Route path="/baby-diary" element={<DiaryItems />}/>
     <Route path="/reports" element={<Reports/>}/>
     <Route path="*" element={<InvalidRoute/>}/>
   </Routes>
