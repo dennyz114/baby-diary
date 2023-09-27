@@ -51,6 +51,11 @@ const actions: ActionType[] = [
     action: ACTION.MEDICINE,
     startTime: new Date('2023-09-26T08:45:00'),
     endTime: new Date('2023-09-26T08:45:00'),
+  },
+  {
+    action: ACTION.SHOWER,
+    startTime: new Date('2023-09-26T16:00:00'),
+    endTime: new Date('2023-09-26T16:00:00'),
   }
 ]
 
