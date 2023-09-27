@@ -1,7 +1,7 @@
-import { ACTIONS } from './actions'
+import { ACTION } from './ACTION'
 
 export interface ActionType {
-  action: ACTIONS
+  action: ACTION
   startTime: Date
   endTime: Date
 }

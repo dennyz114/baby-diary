@@ -1,14 +1,14 @@
 import { ActionType } from '../utils/interfaces'
-import { ACTIONS } from '../utils/actions'
+import { ACTION } from '../utils/ACTION'
 
 const actions: ActionType[] = [
   {
-    action: ACTIONS.DIAPER_CHANGE,
+    action: ACTION.DIAPER_CHANGE,
     startTime: new Date('2023-09-24T19:07:00'),
     endTime: new Date('2023-09-24T19:07:00'),
   },
   {
-    action: ACTIONS.LEFT_BREAST,
+    action: ACTION.LEFT_BREAST,
     startTime: new Date('2023-09-24T19:09:00'),
     endTime: new Date('2023-09-24T19:13:00'),
   }
