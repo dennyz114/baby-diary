@@ -1,16 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import DiaryItems from './components/DiaryItems'
+import AppRoutes from './AppRoutes'
+import NavigationBar from './components/navigationBar/NavigationBar'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Alice Diary.
-        </p>
-        <DiaryItems/>
+        <h1>Diario de Alice</h1>
+        <AppRoutes/>
+        <NavigationBar/>
       </header>
     </div>
   );

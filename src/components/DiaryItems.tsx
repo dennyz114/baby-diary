@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import { getActions } from '../fakeData/fakeApi'
+import { ActionType } from '../utils/interfaces'
+import moment from 'moment'
+import ActionItem from './ActionItem'
 
 const DiaryItems = () => {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<ActionType[]>([])
 
   const getItems = async () => {
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then(response => response.json())
-      .then(json => setItems(json))
+    const actions = getActions()
+    setItems(actions)
   }
 
   useEffect(() => {
@@ -15,9 +18,9 @@ const DiaryItems = () => {
 
   return (
     <div>
-      <h1>Todo</h1>
+      <h1>{moment(new Date()).format('DD/MM/YYYY')}</h1>
       {
-        JSON.stringify(items)
+        items.map((item, index) => <ActionItem key={index} item={item}/>)
       }
     </div>
   )
