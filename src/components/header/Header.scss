@@ -1,0 +1,9 @@
+@import "../../constants";
+
+.header {
+  position: absolute;
+  top: 0;
+  height: 80px;
+  width: 100%;
+  background-color: $secondary-color;
+}

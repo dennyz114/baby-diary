@@ -4,17 +4,19 @@ import { FaChartLine, FaClipboardList } from 'react-icons/fa'
 import './NaviagationBar.scss'
 
 const NavigationBar = () => (
-  <div className={'test'}>
-    <ul>
-      <li>
+  <div className={'navigation-bar'}>
+    <Link to="/" className={'navigation-item'}>
+      <div className={'navigation-icon'}>
         <FaClipboardList/>
-        <Link to="/">Lista de actividade de hoy</Link>
-      </li>
-      <li>
+      </div>
+      Lista de actividade de hoy
+    </Link>
+    <Link to="/reports" className={'navigation-item'}>
+      <div className={'navigation-icon'}>
         <FaChartLine/>
-        <Link to="/reports">Reportes</Link>
-      </li>
-    </ul>
+      </div>
+      Reportes
+    </Link>
   </div>
 )
 
