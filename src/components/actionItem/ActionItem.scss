@@ -1,0 +1,18 @@
+@import '../../constants';
+
+.diary-item-container {
+  border: 1px solid $primary-color;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+
+  .icon-section {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .body-section {
+    width: 85%;
+  }
+}

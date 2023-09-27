@@ -9,7 +9,9 @@ function App() {
     <div className="App">
       <div className="App-container">
         <Header/>
-        <AppRoutes/>
+        <div className={'app-body'}>
+          <AppRoutes/>
+        </div>
         <NavigationBar/>
       </div>
     </div>

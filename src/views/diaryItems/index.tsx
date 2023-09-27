@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { getActions } from '../fakeData/fakeApi'
-import { ActionType } from '../utils/interfaces'
+import { getActions } from '../../fakeData/fakeApi'
+import { ActionType } from '../../utils/interfaces'
 import moment from 'moment'
-import ActionItem from './ActionItem'
+import ActionItem from '../../components/actionItem'
 
 import { Fab, Action } from 'react-tiny-fab';
 import 'react-tiny-fab/dist/styles.css';
-import { AVAILABLE_ACTIONS } from '../utils/ACTION'
-import { PRIMARY_COLOR, TERTIARTY_COLOR } from '../constants'
+import { AVAILABLE_ACTIONS } from '../../utils/ACTION'
+import { PRIMARY_COLOR, TERTIARTY_COLOR } from '../../constants'
+
+import './DiaryItems.scss'
 
 const buttonPositionStyle = { bottom: 100, margin: 5, right: 25 }
 const buttonStyle = { backgroundColor: PRIMARY_COLOR, color: TERTIARTY_COLOR }
@@ -25,10 +27,18 @@ const DiaryItems = () => {
   }, [])
 
   return (
-    <div>
-      <h1>{moment(new Date()).format('DD/MM/YYYY')}</h1>
+    <>
+      <h3>{moment(new Date()).format('DD/MM/YYYY')}</h3>
       {
-        items.map((item, index) => <ActionItem key={index} item={item}/>)
+        items.length > 0 ? (
+          <div className={'actions-list'}>
+            {
+              items.map((item, index) => <ActionItem key={index} item={item}/>)
+            }
+          </div>
+        ) : (
+          <h4>No hay acciones aun</h4>
+        )
       }
 
       <Fab icon={'+'} style={buttonPositionStyle} mainButtonStyles={buttonStyle}>
@@ -45,7 +55,7 @@ const DiaryItems = () => {
           ))
         }
       </Fab>
-    </div>
+    </>
   )
 }
 

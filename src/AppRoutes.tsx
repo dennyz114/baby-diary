@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import DiaryItems from './components/DiaryItems'
-import Reports from './components/Reports'
+import DiaryItems from './views/diaryItems'
+import Reports from './views/Reports'
 import InvalidRoute from './components/InvalidRoute'
 
 const AppRoutes = () => (
