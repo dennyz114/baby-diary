@@ -17,7 +17,7 @@ const ActionItem = ({ item }: { item: ActionType }) => {
         <p>{(actionInformation.needsEndTime ? 'Hora de inicio: ' : 'Hora: ') + moment(item.startTime).format('h:mm A')}</p>
         {
           actionInformation.needsEndTime &&
-          <p>{item.endTime ? 'Hora de fin: ' + moment(item.endTime).format('h:mm A') : 'Accion imcompleta'}</p>
+          <p>{item.endTime ? 'Hora de fin: ' + moment(item.endTime).format('h:mm A') : 'Accion en curso'}</p>
         }
       </div>
     </div>
