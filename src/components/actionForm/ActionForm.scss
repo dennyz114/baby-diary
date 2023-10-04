@@ -17,19 +17,26 @@
     align-items: center;
     gap: 10px;
 
+    p {
+      width: 40%;
+    }
+
+    .form-inputs {
+      width: 60%;
+    }
+
     p, .form-inputs {
-      width: 50%;
       display: flex;
       gap: 10px;
     }
 
     .form-inputs {
       .time-input {
-        width: 70%;
+        width: 40%;
       }
 
       .time-select {
-        width: 30%;
+        width: 60%;
       }
     }
   }
