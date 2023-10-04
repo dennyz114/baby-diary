@@ -8,32 +8,39 @@ import Modal from 'react-modal'
 import { Fab, Action } from 'react-tiny-fab';
 import 'react-tiny-fab/dist/styles.css';
 import { ACTION, AVAILABLE_ACTIONS } from '../../utils/ACTION'
-import { PRIMARY_COLOR, TERTIARTY_COLOR } from '../../constants'
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARTY_COLOR } from '../../constants'
 
 import './DiaryItems.scss'
 import ActionForm from '../../components/actionForm'
-import { getActionsByDate } from '../../utils/apiUtils'
+import { createAction, getActionsByDate } from '../../utils/apiUtils'
+// @ts-ignore
+import { v4 as uuidv4 } from 'uuid'
+// @ts-ignore
+import { sortBy } from 'lodash'
+import SelectComponent from '../../components/selectComponent'
+import { DATE_FORMAT } from '../../utils/dateUtils'
 
-const buttonPositionStyle = { bottom: 100, margin: 5, right: 25 }
-const buttonStyle = { backgroundColor: PRIMARY_COLOR, color: TERTIARTY_COLOR }
+const buttonPositionStyle = { bottom: 100, margin: 5, right: 25, zIndex: 0 }
+const buttonStyle = { backgroundColor: PRIMARY_COLOR, color: TERTIARTY_COLOR, zIndex: 0 }
 const modalStyle = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
+    borderRadius: 10,
+    backgroundColor: SECONDARY_COLOR,
+    height: 'fit-content',
   },
 };
 
 const DiaryItems = () => {
   const [items, setItems] = useState<ActionType[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [actionToCreate, setActionToCreate] = useState<ACTION | null>(null)
+  const [selectedDay, setSelectedDay] = useState<string>(moment().format(DATE_FORMAT))
 
   const getItems = async () => {
-    const actions = await getActionsByDate('01-10-2023')
-    setItems(actions)
+    setIsLoading(true)
+    const {Items: actions}: {Items: ActionType[]} = await getActionsByDate('01-10-2023')
+    setIsLoading(false)
+    setItems(sortBy(actions, ['startTime']))
   }
 
   useEffect(() => {
@@ -42,28 +49,36 @@ const DiaryItems = () => {
 
   const onClearAction = () => setActionToCreate(null)
 
-  const onSaveAction = (values: any) => {
-    console.log('values!!!: ', values)
+  const onSaveAction = async (values: ActionType) => {
+    await createAction({ actionId: uuidv4(), ...values })
     onClearAction()
     void getItems()
   }
 
   return (
     <>
-      <h3>{moment(new Date()).format('DD/MM/YYYY')}</h3>
-      {
+      <div className={'day-selection'}>
+        <SelectComponent
+          value={{ value: selectedDay, label: selectedDay }}
+          options={[{ value: moment().format(DATE_FORMAT), label: moment().format(DATE_FORMAT) }]}
+          onSetValue={setSelectedDay}
+        />
+      </div>
+      {isLoading ? (
+        <h4>Cargando...</h4>
+      ) : (
         items.length > 0 ? (
           <div className={'actions-list'}>
             {
-              items.map((item, index) => <ActionItem key={index} item={item}/>)
+              items.map(item => <ActionItem key={item.actionId} item={item}/>)
             }
           </div>
         ) : (
           <h4>No hay acciones aun</h4>
         )
-      }
+      )}
 
-      <Fab icon={'+'} style={buttonPositionStyle} mainButtonStyles={buttonStyle}>
+      <Fab icon={'+'} style={buttonPositionStyle} mainButtonStyles={buttonStyle} >
         {
           Object.values(AVAILABLE_ACTIONS).map((action) => (
             <Action
@@ -81,7 +96,7 @@ const DiaryItems = () => {
       <Modal
         isOpen={!!actionToCreate}
         style={modalStyle}
-        contentLabel="Agregar accion"
+        ariaHideApp={false}
       >
         {
           actionToCreate &&

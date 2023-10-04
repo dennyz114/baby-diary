@@ -1,18 +1,15 @@
 import moment from 'moment/moment'
 
 export const DATE_FORMAT = 'DD/MM/YYYY'
-export const TIME_FORMAT = 'h:mm A'
+export const TIME_FORMAT = 'h:mm'
+export const AM_OR_PM_FORMAT = 'A'
 
-export function dateObjectToDateFormat(date?: Date): string | undefined {
-  return date ? moment(date).format(DATE_FORMAT) : undefined
+export function destructureDateObject(date?: Date) {
+  return date ? moment(date).format(`${DATE_FORMAT} ${TIME_FORMAT} ${AM_OR_PM_FORMAT}`).split(' ') : [undefined, undefined, undefined]
 }
 
-export function dateObjectToTimeFormat(date?: Date): string | undefined {
-  return date ? moment(date).format(TIME_FORMAT) : undefined
-}
-
-export function dateAndTimeFormatToDateObject (date?: string, time?: string): Date | undefined {
-  if (!date || !time)
+export function dateAndTimeFormatToDateObject (date?: string, time?: string, amOrPm?: string): Date | undefined {
+  if (!date || !time || !amOrPm)
     return undefined
-  return moment(`${date} ${time}`, `${DATE_FORMAT} ${TIME_FORMAT}`).toDate()
+  return moment(`${date} ${time} ${amOrPm}`, `${DATE_FORMAT} ${TIME_FORMAT} ${AM_OR_PM_FORMAT}`).toDate()
 }

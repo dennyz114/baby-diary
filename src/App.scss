@@ -5,9 +5,8 @@
 }
 
 .App-container {
-  margin-top: 80px;
+  margin-top: 120px;
   background-color: $secondary-color;
-  height: calc(100vh - 180px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,13 +16,41 @@
 }
 
 .app-body {
-  height: 100vh;
+  height: calc(100vh - 220px);
   width: calc(100% - 20px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  margin: 10px 10px 65px 10px;
+  //margin: 10px 10px 65px 10px;
 }
 
+.button {
+  background: $tertiary-color;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  color: $primary-color;
+  text-decoration: none;
+  border-style: none;
+  font: inherit;
+
+  .navigation-icon {
+    color: $primary-color;
+  }
+}
+
+.text-input {
+  width: 100%;
+  min-height: 38px;
+  background-color: $secondary-color;
+  border-color: $primary-color;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  box-sizing: border-box;
+  color: white;
+  font: inherit;
+  padding: 2px 8px;
+}
 

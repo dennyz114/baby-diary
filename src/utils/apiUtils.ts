@@ -1,10 +1,18 @@
+import { ActionType } from './interfaces'
+
 const headers = {
   'Content-Type': 'application/json',
 }
 
+const ACTION_PATH = 'actions'
+
 export const getActionsByDate = async (date: string) => {
-  const response = await doGet(`actions/${date}`)
-  console.log('response!!!: ', response)
+  return await doGet(`${ACTION_PATH}/${date}`)
+}
+
+export const createAction = async (action: ActionType) => {
+  const response = await doPost(ACTION_PATH, action)
+  console.log('post response!!!: ', response)
   return response
 }
 

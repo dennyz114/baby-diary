@@ -1,14 +1,20 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { ACTION, AVAILABLE_ACTIONS } from '../../utils/ACTION'
-import moment from 'moment'
 import { ActionType } from '../../utils/interfaces'
-import { dateAndTimeFormatToDateObject, dateObjectToDateFormat, dateObjectToTimeFormat } from '../../utils/dateUtils'
+import {
+  dateAndTimeFormatToDateObject,
+  destructureDateObject
+} from '../../utils/dateUtils'
+import SelectComponent from '../selectComponent'
+import './ActionForm.scss'
 
 interface ActionFormValues {
   startDate: string
   startTime: string
+  startAmOrPm: string
   endDate?: string
   endTime?: string
+  endAmOrPm?: string
   note?: string
 }
 
@@ -19,26 +25,29 @@ interface ActionFormProps {
   onCancel: () => void,
 }
 
-const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProps) => {
-  const dateNow = new Date()
-  const currentTime = moment(dateNow).format('h:mm A')
-  const currentDate = moment(dateNow).format('DD/MM/YYYY')
-  const actionInformation = AVAILABLE_ACTIONS[action]
+const AM_OR_PM_OPTIONS = [{ value: 'AM', label: 'AM' }, { value: 'PM', label: 'PM' }]
 
-  const existingStartDate = dateObjectToDateFormat(existingAction?.startTime)
-  const existingStartTime = dateObjectToTimeFormat(existingAction?.startTime)
-  const existingEndDate = dateObjectToDateFormat(existingAction?.endTime)
-  const existingEndTime = dateObjectToTimeFormat(existingAction?.endTime)
+const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProps) => {
+  const actionInformation = AVAILABLE_ACTIONS[action]
+  const dateNow = new Date()
+  const [currentDate, currentTime, currentAmOrPm] = destructureDateObject(dateNow)
+  const [existingStartDate, existingStartTime, existingStartAmOrPm] = destructureDateObject(existingAction?.startTime)
+  const [existingEndDate, existingEndTime, existingEndAmOrPm] = destructureDateObject(existingAction?.startTime)
 
   const [values, setValues] = useState<ActionFormValues>({
     startDate: existingStartDate || currentDate,
     startTime: existingStartTime || currentTime,
+    startAmOrPm: existingStartAmOrPm || currentAmOrPm,
     endDate: existingEndDate,
     endTime: existingEndTime,
+    endAmOrPm: existingEndAmOrPm,
     note: existingAction?.note
   } as ActionFormValues)
 
-  const onSetValue = (event: ChangeEvent<HTMLInputElement>, key: string) => setValues({ ...values, [key]: event.target.value })
+  const onSetTextValue = (event: {target : {value: string}}, key: string) => onSetValue(event.target.value, key)
+
+  const onSetValue = (value: string, key: string) => setValues({ ...values, [key]: value })
+
 
   const onSaveAction = () => {
     if (!values.startDate || !values.startTime)
@@ -46,57 +55,97 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
 
     const actionToSave = {
       action,
-      startTime: dateAndTimeFormatToDateObject(values.startDate, values.startTime),
-      endTime: dateAndTimeFormatToDateObject(values.endDate, values.endTime),
+      startTime: dateAndTimeFormatToDateObject(values.startDate, values.startTime, values.startAmOrPm),
+      endTime: dateAndTimeFormatToDateObject(values.endDate, values.endTime, values.endAmOrPm),
+      createDate: new Date(),
       note: values.note
     } as ActionType
 
     onSave(actionToSave)
   }
 
-  return (
-    <div>
-      <h3>{actionInformation.displayName}</h3>
+  const endTimeInputs = (
+    <>
+      <div className={'form-section'}>
+        <p>Hora Fin: </p>
+        <div className={'form-inputs'}>
+          <input
+            className={'time-input text-input'}
+            type="text"
+            onChange={e => onSetTextValue(e, 'endTime')}
+            value={values.endTime}
+          />
+          <SelectComponent
+            value={values.endAmOrPm ? { value: values.endAmOrPm, label: values.endAmOrPm } : undefined}
+            //@ts-ignore
+            onSetValue={selectedOption => selectedOption ? onSetValue(selectedOption.value!, 'endAmOrPm') : null}
+            options={AM_OR_PM_OPTIONS}
+          />
+        </div>
+      </div>
+      <div className={'form-section'}>
+        <p>Fecha Fin: </p>
+        <div className={'form-inputs'}>
+          <input
+            className={'text-input'}
+            type="text"
+            onChange={e => onSetTextValue(e, 'endDate')}
+            value={values.endDate}
+          />
+        </div>
+      </div>
+    </>
+  )
 
-      <div>
+  return (
+    <div className={'action-form'}>
+      <h3 className={'action-form-title'}>{actionInformation.displayName}</h3>
+
+      <div className={'form-section'}>
         <p>Hora Inicio: </p>
-        <input
-          type="text"
-          onChange={e => onSetValue(e, 'startTime')}
-          value={values.startTime}
-        />
+        <div className={'form-inputs'}>
+          <input
+            className={'time-input text-input'}
+            type="text"
+            onChange={e => onSetTextValue(e, 'startTime')}
+            value={values.startTime}
+          />
+          <SelectComponent
+            value={values.startAmOrPm ? { value: values.startAmOrPm, label: values.startAmOrPm } : undefined}
+            // @ts-ignore
+            onSetValue={selectedOption => selectedOption ? onSetValue(selectedOption!.value, 'startAmOrPm') : null}
+            options={AM_OR_PM_OPTIONS}
+          />
+        </div>
       </div>
-      <div>
+      <div className={'form-section'}>
         <p>Fecha Inicio: </p>
-        <input
-          type="text"
-          onChange={e => onSetValue(e, 'startDate')}
-          value={values.startDate}
-        />
+        <div className={'form-inputs'}>
+          <input
+            className={'text-input'}
+            type="text"
+            onChange={e => onSetTextValue(e, 'startDate')}
+            value={values.startDate}
+          />
+        </div>
       </div>
-      {
-        actionInformation.needsEndTime &&
-        <>
-          <div>
-            <p>Hora Fin: </p>
-            <input
-              type="text"
-              onChange={e => onSetValue(e, 'endTime')}
-              value={values.endTime}
-            />
-          </div>
-          <div>
-            <p>Fecha Fin: </p>
-            <input
-              type="text"
-              onChange={e => onSetValue(e, 'endDate')}
-              value={values.endDate}
-            />
-          </div>
-        </>
-      }
-      <button onClick={onSaveAction}>Guardar</button>
-      <button onClick={onCancel}>Cancelar</button>
+      {actionInformation.needsEndTime && endTimeInputs}
+      <div className={'form-section'}>
+        <p>Nota: </p>
+        <div className={'form-inputs'}>
+          <textarea
+            className={'text-input'}
+            rows={3}
+            style={{ resize: 'none' }}
+            onChange={e => onSetTextValue(e, 'note')}
+            value={values.note}
+          />
+        </div>
+      </div>
+      <div className={'action-form-footer'}>
+        <button className={'button'} onClick={onSaveAction}>Guardar</button>
+        <button className={'button'} onClick={onCancel}>Cancelar</button>
+      </div>
     </div>
   )
 }
