@@ -1,7 +1,7 @@
 import moment from 'moment/moment'
 
 export const DATE_FORMAT = 'DD/MM/YYYY'
-export const TIME_FORMAT = 'h:mm'
+export const TIME_FORMAT = 'hh:mm'
 export const AM_OR_PM_FORMAT = 'A'
 
 export function destructureDateObject(date?: Date) {

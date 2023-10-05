@@ -1,12 +1,12 @@
 @import "../../constants";
 
 .header {
-  position: absolute;
-  top: 0;
   height: 80px;
   width: 100%;
   background-color: $secondary-color;
-  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   h1 {
     margin: 0;

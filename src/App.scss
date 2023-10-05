@@ -2,11 +2,11 @@
 
 .App {
   text-align: center;
+  height: 100vh;
+  background: $secondary-color;
 }
 
 .App-container {
-  padding-top: 120px;
-  background-color: $secondary-color;
   display: flex;
   flex-direction: column;
   align-items: center;

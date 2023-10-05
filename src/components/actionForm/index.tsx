@@ -7,6 +7,8 @@ import {
 } from '../../utils/dateUtils'
 import SelectComponent from '../selectComponent'
 import './ActionForm.scss'
+//@ts-ignore
+import InputMask from 'react-input-mask'
 
 interface ActionFormValues {
   startDate: string
@@ -33,6 +35,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
   const [currentDate, currentTime, currentAmOrPm] = destructureDateObject(dateNow)
   const [existingStartDate, existingStartTime, existingStartAmOrPm] = destructureDateObject(existingAction?.startTime)
   const [existingEndDate, existingEndTime, existingEndAmOrPm] = destructureDateObject(existingAction?.startTime)
+  const [error, setError] = useState<string | null>(null)
 
   const [values, setValues] = useState<ActionFormValues>({
     startDate: existingStartDate || currentDate,
@@ -50,13 +53,28 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
 
 
   const onSaveAction = () => {
-    if (!values.startDate || !values.startTime)
-      return // todo: show error
+    setError(null)
+    if (!values.startDate || !values.startTime) {
+      setError('Falta fecha y hora de inicio pe causita')
+      return
+    }
+    const startTime = dateAndTimeFormatToDateObject(values.startDate, values.startTime, values.startAmOrPm)
+    const endTime = dateAndTimeFormatToDateObject(values.endDate, values.endTime, values.endAmOrPm)
+    // @ts-ignore
+    if (startTime && isNaN(startTime)) {
+      setError('Pon una fecha y hora de inicio válida')
+      return
+    }
+    // @ts-ignore
+    if (endTime && isNaN(endTime)) {
+      setError('Pon una fecha y hora de fin válida')
+      return
+    }
 
     const actionToSave = {
       action,
-      startTime: dateAndTimeFormatToDateObject(values.startDate, values.startTime, values.startAmOrPm),
-      endTime: dateAndTimeFormatToDateObject(values.endDate, values.endTime, values.endAmOrPm),
+      startTime,
+      endTime,
       createDate: new Date(),
       note: values.note
     } as ActionType
@@ -101,13 +119,15 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
     <div className={'action-form'}>
       <h3 className={'action-form-title'}>{actionInformation.displayName}</h3>
 
+      {error && <p className={'error-message'}>{error}</p>}
+
       <div className={'form-section'}>
         <p>Hora Inicio: </p>
         <div className={'form-inputs'}>
-          <input
+          <InputMask
             className={'time-input text-input'}
-            type="text"
-            onChange={e => onSetTextValue(e, 'startTime')}
+            mask="99:99"
+            onChange={(e: { target: { value: string } }) => onSetTextValue(e, 'startTime')}
             value={values.startTime}
           />
           <SelectComponent

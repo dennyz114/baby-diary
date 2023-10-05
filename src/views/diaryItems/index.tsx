@@ -50,9 +50,10 @@ const DiaryItems = () => {
   const onClearAction = () => setActionToCreate(null)
 
   const onSaveAction = async (values: ActionType) => {
-    await createAction({ actionId: uuidv4(), ...values })
-    onClearAction()
-    void getItems()
+    console.log('llamar endpoint', values)
+    //await createAction({ actionId: uuidv4(), ...values })
+    //onClearAction()
+    //void getItems()
   }
 
   return (
