@@ -1,8 +1,7 @@
 import { ActionType } from './interfaces'
 
 const headers = {
-  'Content-Type': 'application/json',
-  "Access-Control-Allow-Origin": "*",
+  'Content-Type': 'application/json'
 }
 
 const ACTION_PATH = 'actions'
