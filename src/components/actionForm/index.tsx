@@ -75,6 +75,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
       actionId: existingAction?.actionId || undefined,
       action,
       startTime,
+      startDate: values.startDate,
       endTime,
       createDate: new Date(),
       note: values.note

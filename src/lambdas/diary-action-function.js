@@ -15,7 +15,7 @@ const dynamo = DynamoDBDocumentClient.from(client, {
 
 const tableName = 'DiaryActions'
 
-const header = {
+const headers = {
   "content-type": "application/json",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE"
@@ -24,7 +24,7 @@ const header = {
 const getSuccessObject = (data = {}) => {
   return {
     statusCode: 200,
-    headers: header,
+    headers: headers,
     body: JSON.stringify(data)
   }
 }
@@ -33,8 +33,12 @@ export const handler = async (event) => {
 
   try {
     switch (event.routeKey) {
+      case "OPTIONS /actions":
+        console.log('OPTIONS /actions')
+        return getSuccessObject()
       case "GET /actions/{date}":
         const { date } = event.pathParameters;
+        console.log('GET /actions', date)
         const { Items } = await dynamo.send(
           new ScanCommand({ TableName: tableName })
         );
@@ -60,7 +64,7 @@ export const handler = async (event) => {
       default:
         return {
           statusCode: 400,
-          headers: header,
+          headers: headers,
           body: "Bad request",
         }
     }
@@ -68,7 +72,7 @@ export const handler = async (event) => {
     console.log('Error!!!: ', err)
     return {
       statusCode: 500,
-      headers: header,
+      headers: headers,
       body: JSON.stringify(err),
     }
   }
