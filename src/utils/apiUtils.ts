@@ -5,17 +5,18 @@ const headers = {
 }
 
 const ACTION_PATH = 'actions'
+const URL = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? '' : "https://pbx1kuex3j.execute-api.us-east-1.amazonaws.com/"
 
 export const getActionsByDate = async (date: string) => {
-  return await doGet(`${ACTION_PATH}/${date}`)
+  return await doGet(`${URL}${ACTION_PATH}/${date}`)
 }
 
 export const saveAction = async (action: ActionType) => {
-  return await doPost(ACTION_PATH, action)
+  return await doPost(`${URL}${ACTION_PATH}`, action)
 }
 
 export const deleteAction = async (actionId: string) => {
-  return await doDelete(`${ACTION_PATH}/${actionId}`)
+  return await doDelete(`${URL}${ACTION_PATH}/${actionId}`)
 }
 
 // REST methods
