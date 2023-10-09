@@ -16,7 +16,10 @@ const dynamo = DynamoDBDocumentClient.from(client, {
 const tableName = 'DiaryActions'
 
 const header = {
-  "content-type": "application/json"
+  "content-type": "application/json",
+  "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE"
 }
 
 const getSuccessObject = (data = {}) => {
