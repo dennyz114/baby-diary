@@ -3,7 +3,7 @@ import './Header.scss';
 
 const Header = () => (
   <div className={'header'}>
-    <h1>Diario de Alice! v. 0.1.1</h1>
+    <h1>Diario de Alice! v. 0.1.2</h1>
   </div>
 )
 
