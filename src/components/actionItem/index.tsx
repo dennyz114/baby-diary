@@ -2,10 +2,17 @@ import { ActionType } from '../../utils/interfaces'
 import { AVAILABLE_ACTIONS } from '../../utils/ACTION'
 import moment from 'moment/moment'
 import React from 'react'
+import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa'
 
 import './ActionItem.scss'
 
-const ActionItem = ({ item }: { item: ActionType }) => {
+interface ActionItemProps {
+  item: ActionType
+  onEdit: () => void
+  onDelete: () => void
+}
+
+const ActionItem = ({ item, onEdit, onDelete }: ActionItemProps) => {
   const actionInformation = AVAILABLE_ACTIONS[item.action]
   return (
     <div className={'diary-item-container'}>
@@ -19,6 +26,10 @@ const ActionItem = ({ item }: { item: ActionType }) => {
           actionInformation.needsEndTime &&
           <p>{item.endTime ? 'Hora de fin: ' + moment(item.endTime).format('h:mm A') : 'Accion en curso'}</p>
         }
+      </div>
+      <div className={'body-actions'}>
+        <FaRegEdit size={30} onClick={onEdit}/>
+        <FaRegTrashAlt size={30} onClick={onDelete}/>
       </div>
     </div>
   )

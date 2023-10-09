@@ -23,34 +23,34 @@ export const AVAILABLE_ACTIONS: {[id: string]: Action} = {
   [ACTION.DIAPER_CHANGE]: {
     id: ACTION.DIAPER_CHANGE,
     displayName: 'Cambio de pañal',
-    icon: <FaBaby/>
+    icon: <FaBaby size={35}/>
   },
   [ACTION.LEFT_BREAST]: {
     id: ACTION.LEFT_BREAST,
     displayName: 'Pecho izquierdo',
-    icon: <FaArrowCircleLeft/>,
+    icon: <FaArrowCircleLeft size={35}/>,
     needsEndTime: true
   },
   [ACTION.RIGHT_BREAST]: {
     id: ACTION.RIGHT_BREAST,
     displayName: 'Pecho derecho',
-    icon: <FaArrowCircleRight/>,
+    icon: <FaArrowCircleRight size={35}/>,
     needsEndTime: true
   },
   [ACTION.MEDICINE]: {
     id: ACTION.MEDICINE,
     displayName: 'Medicina',
-    icon: <TbMedicineSyrup/>
+    icon: <TbMedicineSyrup size={35}/>
   },
   [ACTION.SHOWER]: {
     id: ACTION.SHOWER,
     displayName: 'Ducha',
-    icon: <FaShower/>
+    icon: <FaShower size={35}/>
   },
   [ACTION.BOTTLE]: {
     id: ACTION.BOTTLE,
     displayName: 'Biberon',
-    icon: <GiBabyBottle/>
+    icon: <GiBabyBottle size={35}/>
   }
 }
 

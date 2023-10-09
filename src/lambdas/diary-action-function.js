@@ -3,6 +3,7 @@ import {
   DynamoDBDocumentClient,
   ScanCommand,
   PutCommand,
+  DeleteCommand
 } from "@aws-sdk/lib-dynamodb";
 
 const client = new DynamoDBClient({});
@@ -44,6 +45,15 @@ export const handler = async (event) => {
             Item: { actionId, action, startTime, endTime, note, createDate },
           })
         )
+        return getSuccessObject()
+      case "DELETE /actions/{id}":
+        const { id } = event.pathParameters
+        await dynamo.send(
+          new DeleteCommand({
+            TableName: tableName,
+            Key: { actionId: id },
+          })
+        );
         return getSuccessObject()
       default:
         return {

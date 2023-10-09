@@ -30,20 +30,20 @@ interface ActionFormProps {
 const AM_OR_PM_OPTIONS = [{ value: 'AM', label: 'AM' }, { value: 'PM', label: 'PM' }]
 
 const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProps) => {
-  const actionInformation = AVAILABLE_ACTIONS[action]
+  const { needsEndTime, displayName } = AVAILABLE_ACTIONS[action]
   const dateNow = new Date()
   const [currentDate, currentTime, currentAmOrPm] = destructureDateObject(dateNow)
   const [existingStartDate, existingStartTime, existingStartAmOrPm] = destructureDateObject(existingAction?.startTime)
-  const [existingEndDate, existingEndTime, existingEndAmOrPm] = destructureDateObject(existingAction?.startTime)
+  const [existingEndDate, existingEndTime, existingEndAmOrPm] = destructureDateObject(existingAction?.endTime)
   const [error, setError] = useState<string | null>(null)
 
   const [values, setValues] = useState<ActionFormValues>({
     startDate: existingStartDate || currentDate,
     startTime: existingStartTime || currentTime,
     startAmOrPm: existingStartAmOrPm || currentAmOrPm,
-    endDate: existingEndDate,
-    endTime: existingEndTime,
-    endAmOrPm: existingEndAmOrPm,
+    endDate: existingEndDate || needsEndTime ? currentDate : undefined,
+    endTime: existingEndTime || needsEndTime ? currentTime : undefined,
+    endAmOrPm: existingEndAmOrPm || needsEndTime ? currentAmOrPm : undefined,
     note: existingAction?.note
   } as ActionFormValues)
 
@@ -72,6 +72,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
     }
 
     const actionToSave = {
+      actionId: existingAction?.actionId || undefined,
       action,
       startTime,
       endTime,
@@ -117,7 +118,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
 
   return (
     <div className={'action-form'}>
-      <h3 className={'action-form-title'}>{actionInformation.displayName}</h3>
+      <h3 className={'action-form-title'}>{displayName}</h3>
 
       {error && <p className={'error-message'}>{error}</p>}
 
@@ -149,7 +150,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
           />
         </div>
       </div>
-      {actionInformation.needsEndTime && endTimeInputs}
+      {needsEndTime && endTimeInputs}
       <div className={'form-section'}>
         <p>Nota: </p>
         <div className={'form-inputs'}>
