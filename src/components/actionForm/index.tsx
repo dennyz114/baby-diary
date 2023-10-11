@@ -92,10 +92,11 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
       <div className={'form-section'}>
         <p>Hora Fin: </p>
         <div className={'form-inputs'}>
-          <input
+          <InputMask
             className={'time-input text-input'}
-            type="text"
-            onChange={e => onSetTextValue(e, 'endTime')}
+            mask="99:99"
+            placeholder={'HH:mm'}
+            onChange={(e: { target: { value: string } }) => onSetTextValue(e, 'endTime')}
             value={values.endTime}
           />
           <SelectComponent
@@ -111,10 +112,10 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
         <div className={'form-inputs'}>
           <InputMask
             className={'text-input'}
-            mask="99/99/9999"
+            mask="99-99-9999"
             onChange={(e: { target: { value: string } }) => onSetTextValue(e, 'endDate')}
             value={values.endDate}
-            placeholder={'DD/MM/YYYY'}
+            placeholder={'DD-MM-YYYY'}
           />
         </div>
       </div>
@@ -149,10 +150,10 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
         <div className={'form-inputs'}>
           <InputMask
             className={'text-input'}
-            mask="99/99/9999"
+            mask="99-99-9999"
             onChange={(e: { target: { value: string } }) => onSetTextValue(e, 'startDate')}
             value={values.startDate}
-            placeholder={'DD/MM/YYYY'}
+            placeholder={'DD-MM-YYYY'}
           />
         </div>
       </div>

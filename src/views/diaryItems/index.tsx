@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid'
 // @ts-ignore
 import { orderBy } from 'lodash'
 import SelectComponent from '../../components/selectComponent'
-import { DATE_DASH_FORMAT, DATE_FORMAT, getDateDashFormatString, getDatesUntilNowSince } from '../../utils/dateUtils'
+import { DATE_DASH_FORMAT, getDateDashFormatString, getDatesUntilNowSince } from '../../utils/dateUtils'
 import { BABY_BIRTHDAY } from '../../utils/constants'
 import ModalComponent from '../../components/modalComponent'
 
@@ -37,6 +37,7 @@ const actionsOptions = [
 const DiaryItems = () => {
   const [items, setItems] = useState<ActionType[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isDeleting, setIsDeleting] = useState<boolean>(false)
   const [actionToCreate, setActionToCreate] = useState<ACTION | null>(null)
   const [selectedFilterDay, setSelectedFilterDay] = useState<string>(moment().format(DATE_DASH_FORMAT))
   const [selectedFilterAction, setSelectedFilterAction] = useState<string>(ACTION_OPTION_FILTER_ALL.value)
@@ -68,7 +69,9 @@ const DiaryItems = () => {
 
   const onDeleteAction = async () => {
     if (!actionToDelete) return
+    setIsDeleting(true)
     await deleteAction(actionToDelete)
+    setIsDeleting(false)
     setActionToDelete(null)
     void getItems(selectedFilterDay)
   }
@@ -139,7 +142,7 @@ const DiaryItems = () => {
         body={
           <div>
             <h3>¿Estas seguro que quieres borrar esta accion?</h3>
-            <button className={'button'} onClick={onDeleteAction}>Eliminar</button>
+            <button className={'button'} onClick={onDeleteAction} disabled={isDeleting}>{isDeleting ? 'Eliminando...' : 'Eliminar'}</button>
             <button className={'button'} onClick={onCancelAction}>Cancelar</button>
           </div>
         }
