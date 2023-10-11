@@ -1,24 +1,24 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import {
   DynamoDBDocumentClient,
-  ScanCommand,
+  QueryCommand,
   PutCommand,
   DeleteCommand
-} from "@aws-sdk/lib-dynamodb";
+} from '@aws-sdk/lib-dynamodb'
 
-const client = new DynamoDBClient({});
+const client = new DynamoDBClient({})
 const dynamo = DynamoDBDocumentClient.from(client, {
   marshallOptions: {
     removeUndefinedValues: true
   }
-});
+})
 
 const tableName = 'DiaryActions'
 
 const headers = {
-  "content-type": "application/json",
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,DELETE"
+  'content-type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
 }
 
 const getSuccessObject = (data = {}) => {
@@ -33,17 +33,24 @@ export const handler = async (event) => {
 
   try {
     switch (event.routeKey) {
-      case "OPTIONS /actions":
+      case 'OPTIONS /actions':
         console.log('OPTIONS /actions')
         return getSuccessObject()
-      case "GET /actions/{date}":
-        const { date } = event.pathParameters;
+      case 'GET /actions/{date}':
+        const { date } = event.pathParameters
         console.log('GET /actions', date)
         const { Items } = await dynamo.send(
-          new ScanCommand({ TableName: tableName })
-        );
+          new QueryCommand({
+            TableName: tableName,
+            IndexName: 'startDate-startTime-index',
+            KeyConditionExpression: 'startDate = :startDate',
+            ExpressionAttributeValues: {
+              ':startDate': date
+            }
+          })
+        )
         return getSuccessObject({ Items, date })
-      case "POST /actions":
+      case 'POST /actions':
         const { actionId, action, startTime, endTime, note, startDate, createDate } = JSON.parse(event.body)
         await dynamo.send(
           new PutCommand({
@@ -52,20 +59,20 @@ export const handler = async (event) => {
           })
         )
         return getSuccessObject()
-      case "DELETE /actions/{id}":
+      case 'DELETE /actions/{id}':
         const { id } = event.pathParameters
         await dynamo.send(
           new DeleteCommand({
             TableName: tableName,
             Key: { actionId: id },
           })
-        );
+        )
         return getSuccessObject()
       default:
         return {
           statusCode: 400,
           headers: headers,
-          body: "Bad request",
+          body: 'Bad request',
         }
     }
   } catch (err) {

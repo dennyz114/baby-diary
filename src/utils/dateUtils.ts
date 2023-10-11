@@ -1,11 +1,12 @@
 import moment from 'moment/moment'
 
 export const DATE_FORMAT = 'DD/MM/YYYY'
+export const DATE_DASH_FORMAT = 'DD-MM-YYYY'
 export const TIME_FORMAT = 'hh:mm'
 export const AM_OR_PM_FORMAT = 'A'
 
-export function getDateString(date: Date) {
-  return moment(date).format(DATE_FORMAT)
+export function getDateDashFormatString(date: Date) {
+  return moment(date).format(DATE_DASH_FORMAT)
 }
 
 export function destructureDateObject(date?: Date) {
@@ -29,5 +30,5 @@ export function getDatesUntilNowSince(startDate: Date) {
     date.setDate(date.getDate() + 1);
   }
 
-  return dates;
+  return dates.reverse();
 }

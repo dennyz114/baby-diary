@@ -9,7 +9,9 @@
   height: calc(100vh - 200px);
 }
 
-.day-selection {
+.action-filters {
   margin-bottom: 10px;
   align-self: flex-end;
+  display: flex;
+  gap: 10px;
 }

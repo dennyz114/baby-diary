@@ -14,37 +14,45 @@ import { getActionsByDate, saveAction, deleteAction } from '../../utils/apiUtils
 // @ts-ignore
 import { v4 as uuidv4 } from 'uuid'
 // @ts-ignore
-import { sortBy } from 'lodash'
+import { orderBy } from 'lodash'
 import SelectComponent from '../../components/selectComponent'
-import { DATE_FORMAT, getDateString, getDatesUntilNowSince } from '../../utils/dateUtils'
+import { DATE_DASH_FORMAT, DATE_FORMAT, getDateDashFormatString, getDatesUntilNowSince } from '../../utils/dateUtils'
 import { BABY_BIRTHDAY } from '../../utils/constants'
 import ModalComponent from '../../components/modalComponent'
 
 const buttonPositionStyle = { bottom: 100, margin: 5, right: 25, zIndex: 0 }
 const buttonStyle = { backgroundColor: PRIMARY_COLOR, color: TERTIARTY_COLOR, zIndex: 0, fontSize: 50 }
-
+const ACTION_OPTION_FILTER_ALL = {value: 'ALL', label: 'Todas'}
 
 const datesSinceBirthDay = getDatesUntilNowSince(BABY_BIRTHDAY)
-const datesOptions = datesSinceBirthDay.map(date => ({ value: getDateString(date), label: getDateString(date) }))
+const datesOptions = datesSinceBirthDay.map(date => ({ value: getDateDashFormatString(date), label: getDateDashFormatString(date) }))
+const actionsOptions = [
+  ACTION_OPTION_FILTER_ALL,
+  ...Object.values(AVAILABLE_ACTIONS).map(action => ({
+    value: action.id,
+    label: action.displayName
+  }))
+]
 
 const DiaryItems = () => {
   const [items, setItems] = useState<ActionType[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [actionToCreate, setActionToCreate] = useState<ACTION | null>(null)
-  const [selectedDay, setSelectedDay] = useState<string>(moment().format(DATE_FORMAT))
+  const [selectedFilterDay, setSelectedFilterDay] = useState<string>(moment().format(DATE_DASH_FORMAT))
+  const [selectedFilterAction, setSelectedFilterAction] = useState<string>(ACTION_OPTION_FILTER_ALL.value)
   const [actionToEdit, setActionToEdit] = useState<ActionType | null>(null)
   const [actionToDelete, setActionToDelete] = useState<string | null>(null)
 
-  const getItems = async () => {
+  const getItems = async (selectedDate: string) => {
     setIsLoading(true)
-    const {Items: actions}: {Items: ActionType[]} = await getActionsByDate('01-10-2023')
+    const {Items: actions}: {Items: ActionType[]} = await getActionsByDate(selectedDate)
     setIsLoading(false)
-    setItems(sortBy(actions, ['startTime']))
+    setItems(orderBy(actions, 'startTime', 'desc'))
   }
 
   useEffect(() => {
-    void getItems()
-  }, [])
+    void getItems(selectedFilterDay)
+  }, [selectedFilterDay])
 
   const onCancelAction = () => {
     setActionToCreate(null)
@@ -55,34 +63,49 @@ const DiaryItems = () => {
   const onSaveAction = async (values: ActionType) => {
     await saveAction({ ...values, actionId: values.actionId || uuidv4() })
     onCancelAction()
-    void getItems()
+    void getItems(selectedFilterDay)
   }
 
   const onDeleteAction = async () => {
     if (!actionToDelete) return
     await deleteAction(actionToDelete)
     setActionToDelete(null)
-    void getItems()
+    void getItems(selectedFilterDay)
+  }
+
+  const onSelectFilterDay = (selectedDay: string) => {
+    setSelectedFilterDay(selectedDay)
+    setSelectedFilterAction(ACTION_OPTION_FILTER_ALL.value)
   }
 
   const action = actionToCreate || actionToEdit?.action
 
+  const filteredItems = items.filter(item => {
+    if (selectedFilterAction === ACTION_OPTION_FILTER_ALL.value) return true
+    return item.action === selectedFilterAction
+  })
+
   return (
     <>
-      <div className={'day-selection'}>
+      <div className={'action-filters'}>
         <SelectComponent
-          value={{ value: selectedDay, label: selectedDay }}
+          value={{ value: selectedFilterDay, label: selectedFilterDay }}
           options={datesOptions}
-          onSetValue={setSelectedDay}
+          onSetValue={onSelectFilterDay}
+        />
+        <SelectComponent
+          value={actionsOptions.find(action => action.value === selectedFilterAction)}
+          options={actionsOptions}
+          onSetValue={setSelectedFilterAction}
         />
       </div>
       {isLoading ? (
         <h4>Cargando...</h4>
       ) : (
-        items.length > 0 ? (
+        filteredItems.length > 0 ? (
           <div className={'actions-list'}>
             {
-              items.map(item => (
+              filteredItems.map(item => (
                 <ActionItem
                   key={item.actionId}
                   item={item}

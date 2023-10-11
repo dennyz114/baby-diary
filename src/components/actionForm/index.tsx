@@ -109,11 +109,12 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
       <div className={'form-section'}>
         <p>Fecha Fin: </p>
         <div className={'form-inputs'}>
-          <input
+          <InputMask
             className={'text-input'}
-            type="text"
-            onChange={e => onSetTextValue(e, 'endDate')}
+            mask="99/99/9999"
+            onChange={(e: { target: { value: string } }) => onSetTextValue(e, 'endDate')}
             value={values.endDate}
+            placeholder={'DD/MM/YYYY'}
           />
         </div>
       </div>
@@ -146,11 +147,12 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
       <div className={'form-section'}>
         <p>Fecha Inicio: </p>
         <div className={'form-inputs'}>
-          <input
+          <InputMask
             className={'text-input'}
-            type="text"
-            onChange={e => onSetTextValue(e, 'startDate')}
+            mask="99/99/9999"
+            onChange={(e: { target: { value: string } }) => onSetTextValue(e, 'startDate')}
             value={values.startDate}
+            placeholder={'DD/MM/YYYY'}
           />
         </div>
       </div>
