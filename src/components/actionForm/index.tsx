@@ -23,7 +23,7 @@ interface ActionFormValues {
 interface ActionFormProps {
   action: ACTION
   existingAction: ActionType | null
-  onSave: (values: ActionType) => void
+  onSave: (values: ActionType) =>  Promise<void>
   onCancel: () => void,
 }
 
@@ -36,14 +36,15 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
   const [existingStartDate, existingStartTime, existingStartAmOrPm] = destructureDateObject(existingAction?.startTime)
   const [existingEndDate, existingEndTime, existingEndAmOrPm] = destructureDateObject(existingAction?.endTime)
   const [error, setError] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
 
   const [values, setValues] = useState<ActionFormValues>({
     startDate: existingStartDate || currentDate,
     startTime: existingStartTime || currentTime,
     startAmOrPm: existingStartAmOrPm || currentAmOrPm,
-    endDate: existingEndDate || needsEndTime ? currentDate : undefined,
-    endTime: existingEndTime || needsEndTime ? currentTime : undefined,
-    endAmOrPm: existingEndAmOrPm || needsEndTime ? currentAmOrPm : undefined,
+    endDate: existingEndDate ? existingEndDate : needsEndTime && existingAction ? currentDate : undefined,
+    endTime: existingEndTime ? existingEndTime : needsEndTime && existingAction ? currentTime : undefined,
+    endAmOrPm: existingEndAmOrPm ? existingEndAmOrPm : needsEndTime && existingAction ? currentAmOrPm : undefined,
     note: existingAction?.note
   } as ActionFormValues)
 
@@ -52,7 +53,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
   const onSetValue = (value: string, key: string) => setValues({ ...values, [key]: value })
 
 
-  const onSaveAction = () => {
+  const onSaveAction = async () => {
     setError(null)
     if (!values.startDate || !values.startTime) {
       setError('Falta fecha y hora de inicio pe causita')
@@ -75,13 +76,15 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
       actionId: existingAction?.actionId || undefined,
       action,
       startTime,
+      endTime: needsEndTime ? endTime : startTime,
+      note: values.note,
       startDate: values.startDate,
-      endTime,
-      createDate: new Date(),
-      note: values.note
+      createDate: new Date()
     } as ActionType
 
-    onSave(actionToSave)
+    setIsSaving(true)
+    await onSave(actionToSave)
+    setIsSaving(false)
   }
 
   const endTimeInputs = (
@@ -165,7 +168,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
         </div>
       </div>
       <div className={'action-form-footer'}>
-        <button className={'button'} onClick={onSaveAction}>Guardar</button>
+        <button className={'button'} onClick={onSaveAction} disabled={isSaving}>{isSaving ? 'Guardando...' : 'Guardar'}</button>
         <button className={'button'} onClick={onCancel}>Cancelar</button>
       </div>
     </div>

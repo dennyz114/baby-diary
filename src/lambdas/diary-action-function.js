@@ -44,11 +44,11 @@ export const handler = async (event) => {
         );
         return getSuccessObject({ Items, date })
       case "POST /actions":
-        const { actionId, action, startTime, endTime, note, createDate } = JSON.parse(event.body)
+        const { actionId, action, startTime, endTime, note, startDate, createDate } = JSON.parse(event.body)
         await dynamo.send(
           new PutCommand({
             TableName: tableName,
-            Item: { actionId, action, startTime, endTime, note, createDate },
+            Item: { actionId, action, startTime, endTime, note, startDate, createDate },
           })
         )
         return getSuccessObject()

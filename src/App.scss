@@ -35,6 +35,12 @@
   border-style: none;
   font: inherit;
 
+  &:disabled {
+    background: gray;
+    color: white;
+    cursor: not-allowed;
+  }
+
   .navigation-icon {
     color: $primary-color;
   }
