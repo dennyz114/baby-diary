@@ -4,7 +4,7 @@ import { BABY_NAME } from '../../utils/constants'
 
 const Header = () => (
   <div className={'header'}>
-    <h1>Diario de {BABY_NAME}! v. 0.1.6</h1>
+    <h1>Diario de {BABY_NAME}!</h1>
   </div>
 )
 

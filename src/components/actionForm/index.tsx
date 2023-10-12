@@ -101,8 +101,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
           />
           <SelectComponent
             value={values.endAmOrPm ? { value: values.endAmOrPm, label: values.endAmOrPm } : undefined}
-            //@ts-ignore
-            onSetValue={selectedOption => selectedOption ? onSetValue(selectedOption.value!, 'endAmOrPm') : null}
+            onSetValue={selectedOption => selectedOption ? onSetValue(selectedOption, 'endAmOrPm') : null}
             options={AM_OR_PM_OPTIONS}
           />
         </div>
@@ -139,8 +138,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
           />
           <SelectComponent
             value={values.startAmOrPm ? { value: values.startAmOrPm, label: values.startAmOrPm } : undefined}
-            // @ts-ignore
-            onSetValue={selectedOption => selectedOption ? onSetValue(selectedOption!.value, 'startAmOrPm') : null}
+            onSetValue={selectedOption => selectedOption ? onSetValue(selectedOption, 'startAmOrPm') : null}
             options={AM_OR_PM_OPTIONS}
           />
         </div>

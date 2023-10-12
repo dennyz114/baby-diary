@@ -10,6 +10,10 @@ export function getDateDashFormatString(date: Date) {
   return moment(date).format(DATE_DASH_FORMAT)
 }
 
+export function getStringDateFullFormat(date: Date) {
+  return moment(date).format(`${DATE_DASH_FORMAT} ${TIME_FORMAT} ${AM_OR_PM_FORMAT}`)
+}
+
 export function destructureDateObject(date?: Date) {
   return date ? moment(date).format(`${DATE_DASH_FORMAT} ${TIME_FORMAT} ${AM_OR_PM_FORMAT}`).split(' ') : [undefined, undefined, undefined]
 }

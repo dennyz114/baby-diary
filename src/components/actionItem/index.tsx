@@ -5,6 +5,7 @@ import React from 'react'
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa'
 
 import './ActionItem.scss'
+import { getStringDateFullFormat } from '../../utils/dateUtils'
 
 interface ActionItemProps {
   item: ActionType
@@ -20,12 +21,15 @@ const ActionItem = ({ item, onEdit, onDelete }: ActionItemProps) => {
         {actionInformation.icon}
       </div>
       <div className={'body-section'}>
-        <p>{actionInformation.displayName}</p>
-        <p>{(actionInformation.needsEndTime ? 'Hora de inicio: ' : 'Hora: ') + moment(item.startTime).format('h:mm A')}</p>
-        {
-          actionInformation.needsEndTime &&
-          <p>{item.endTime ? 'Hora de fin: ' + moment(item.endTime).format('h:mm A') : 'Accion en curso'}</p>
-        }
+        <p className={'action-title'}>{actionInformation.displayName}</p>
+        <p className={'action-time'}>
+          {(actionInformation.needsEndTime ? 'Inicio: ' : 'Hora: ') + moment(item.startTime).format('h:mm A')}
+          {
+            actionInformation.needsEndTime ? item.endTime ? ' Fin: ' + moment(item.endTime).format('h:mm A') : 'Accion en curso' : null
+          }
+        </p>
+        {item.note && <p className={'action-note'}>Nota: {item.note}</p>}
+        {item.createDate && <p className={'create-date'}>Registrado a las: {getStringDateFullFormat(item.createDate)}</p>}
       </div>
       <div className={'body-actions'}>
         <FaRegEdit size={30} onClick={onEdit}/>
