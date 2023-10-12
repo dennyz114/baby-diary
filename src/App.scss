@@ -16,13 +16,12 @@
 }
 
 .app-body {
-  height: calc(100vh - 220px);
+  height: 100vh;
   width: calc(100% - 20px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  //margin: 10px 10px 65px 10px;
 }
 
 .button {

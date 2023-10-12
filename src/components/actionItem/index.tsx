@@ -25,7 +25,7 @@ const ActionItem = ({ item, onEdit, onDelete }: ActionItemProps) => {
         <p className={'action-time'}>
           {(actionInformation.needsEndTime ? 'Inicio: ' : 'Hora: ') + moment(item.startTime).format('h:mm A')}
           {
-            actionInformation.needsEndTime ? item.endTime ? ' Fin: ' + moment(item.endTime).format('h:mm A') : 'Accion en curso' : null
+            actionInformation.needsEndTime ? item.endTime ? ' Fin: ' + moment(item.endTime).format('h:mm A') : ' Accion en curso' : null
           }
         </p>
         {item.note && <p className={'action-note'}>Nota: {item.note}</p>}
