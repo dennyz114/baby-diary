@@ -25,7 +25,9 @@ const buttonStyle = { backgroundColor: PRIMARY_COLOR, color: TERTIARTY_COLOR, zI
 const ACTION_OPTION_FILTER_ALL = {value: 'ALL', label: 'Todas'}
 
 const datesSinceBirthDay = getDatesUntilNowSince(BABY_BIRTHDAY)
-const datesOptions = datesSinceBirthDay.map(date => ({ value: getDateDashFormatString(date), label: getDateDashFormatString(date) }))
+const datesOptions = datesSinceBirthDay.map((date, index) =>
+  ({ value: getDateDashFormatString(date), label: index === 0 ? '----Hoy----' : getDateDashFormatString(date) })
+)
 const actionsOptions = [
   ACTION_OPTION_FILTER_ALL,
   ...Object.values(AVAILABLE_ACTIONS).map(action => ({
@@ -35,11 +37,12 @@ const actionsOptions = [
 ]
 
 const DiaryItems = () => {
+  const today = moment().format(DATE_DASH_FORMAT)
   const [items, setItems] = useState<ActionType[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDeleting, setIsDeleting] = useState<boolean>(false)
   const [actionToCreate, setActionToCreate] = useState<ACTION | null>(null)
-  const [selectedFilterDay, setSelectedFilterDay] = useState<string>(moment().format(DATE_DASH_FORMAT))
+  const [selectedFilterDay, setSelectedFilterDay] = useState<string>(today)
   const [selectedFilterAction, setSelectedFilterAction] = useState<string>(ACTION_OPTION_FILTER_ALL.value)
   const [actionToEdit, setActionToEdit] = useState<ActionType | null>(null)
   const [actionToDelete, setActionToDelete] = useState<string | null>(null)
@@ -50,6 +53,18 @@ const DiaryItems = () => {
     setIsLoading(false)
     setItems(orderBy(actions, 'startTime', 'desc'))
   }
+
+  useEffect(() => {
+    const clearState = () => {
+      if (!document.hidden) {
+        setSelectedFilterDay(today)
+        void getItems(today)
+      }
+    }
+    document.addEventListener("visibilitychange", clearState);
+
+    return () => document.removeEventListener("visibilitychange", clearState);
+  }, [])
 
   useEffect(() => {
     void getItems(selectedFilterDay)
@@ -92,7 +107,7 @@ const DiaryItems = () => {
     <>
       <div className={'action-filters'}>
         <SelectComponent
-          value={{ value: selectedFilterDay, label: selectedFilterDay }}
+          value={{ value: selectedFilterDay, label: selectedFilterDay === today ? '----Hoy----' : selectedFilterDay }}
           options={datesOptions}
           onSetValue={onSelectFilterDay}
         />
