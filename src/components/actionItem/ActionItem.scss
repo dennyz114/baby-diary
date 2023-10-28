@@ -39,4 +39,14 @@
     width: 15%;
     align-items: center;
   }
+
+  .time-badge {
+    background-color: $primary-color;
+    color: $secondary-color;
+    border-radius: 15px;
+    padding: 5px;
+    margin: 0 5px 0 5px;
+    font-size: 0.8rem;
+    display: inline-flex;
+  }
 }

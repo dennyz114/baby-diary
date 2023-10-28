@@ -1,0 +1,25 @@
+.blinking-dot-container {
+  display: inline-flex;
+  padding: 0 8px 0 8px;
+
+  .blinking-dot {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+
+    animation: blink-animation 1s steps(10, start) infinite;
+    -webkit-animation: blink-animation 1s steps(10, start) infinite;
+
+    @keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+    @-webkit-keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+  }
+}

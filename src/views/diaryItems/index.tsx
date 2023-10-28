@@ -54,7 +54,7 @@ const DiaryItems = () => {
     setItems(orderBy(actions, 'startTime', 'desc'))
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     const clearState = () => {
       if (!document.hidden) {
         setSelectedFilterDay(today)
@@ -64,7 +64,7 @@ const DiaryItems = () => {
     document.addEventListener("visibilitychange", clearState);
 
     return () => document.removeEventListener("visibilitychange", clearState);
-  }, [])
+  }, [])*/
 
   useEffect(() => {
     void getItems(selectedFilterDay)
