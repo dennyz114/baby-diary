@@ -20,3 +20,19 @@
     padding: 0 20px;
   }
 }
+
+.drawer {
+  width: 100%;
+  background: $secondary-color !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .drawer-item {
+    padding: 10px 0;
+    font-size: 1.5rem;
+    color: white;
+    text-decoration: none;
+  }
+}

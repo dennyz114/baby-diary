@@ -8672,6 +8672,11 @@ react-modal@^3.16.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
+react-modern-drawer@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-modern-drawer/-/react-modern-drawer-1.2.2.tgz#cee2d3355a1ac7ac0842d3fba33a28cd8f7f2464"
+  integrity sha512-SXUNjofHzeoEas0kdMWWafuF2+vwdtbQD1cpkHxo7oyFj3v+2l2CMeJjc/GodYsnxVhSiYj75xosMJXXed9ykQ==
+
 react-refresh@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
