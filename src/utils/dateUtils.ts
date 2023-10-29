@@ -26,8 +26,8 @@ export function dateAndTimeFormatToDateObject (date?: string, time?: string, amO
 
 export function getDatesUntilNowSince(startDate: Date) {
   const date = new Date(startDate.getTime());
-  const now = new Date();
-
+  const nowUTC = new Date();
+  const now = new Date(nowUTC.getTime() + nowUTC.getTimezoneOffset() * 60000);
   const dates = [];
 
   while (date <= now) {
