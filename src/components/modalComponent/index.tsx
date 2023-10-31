@@ -1,5 +1,5 @@
 import React from 'react'
-import { SECONDARY_COLOR } from '../../constants'
+import { SECONDARY_COLOR } from '../../styleConstants'
 // @ts-ignore
 import Modal from 'react-modal'
 

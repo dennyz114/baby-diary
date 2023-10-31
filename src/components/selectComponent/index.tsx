@@ -1,6 +1,6 @@
 import React from 'react'
 import Select, { StylesConfig } from 'react-select'
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../constants'
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styleConstants'
 
 
 const selectStyles: StylesConfig = {

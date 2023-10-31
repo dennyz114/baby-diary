@@ -6,7 +6,7 @@ import ActionItem from '../../components/actionItem'
 import { Fab, Action } from 'react-tiny-fab';
 import 'react-tiny-fab/dist/styles.css';
 import { ACTION, AVAILABLE_ACTIONS } from '../../utils/ACTION'
-import { PRIMARY_COLOR, TERTIARTY_COLOR } from '../../constants'
+import { PRIMARY_COLOR, TERTIARTY_COLOR } from '../../styleConstants'
 
 import './DiaryItems.scss'
 import ActionForm from '../../components/actionForm'
