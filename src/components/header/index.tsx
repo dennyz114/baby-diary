@@ -22,7 +22,7 @@ const Header = () => {
           onClick={toggleDrawer}
           className={'hamburger-icon'}
         />
-        <h1>Diario de {BABY_NAME}!</h1>
+        <h1>Diario de {BABY_NAME}</h1>
       </div>
       <Drawer
         open={isOpen}
