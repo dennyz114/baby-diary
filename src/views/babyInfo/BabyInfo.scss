@@ -26,12 +26,32 @@
     position: relative;
     top: -110px;
 
+    .baby-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: $secondary-color;
+      text-align: center;
+    }
+
     p {
       margin-block-start: 0.5em;
       margin-block-end: 0.5em;
     }
 
     .baby-born-data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      .baby-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+
+    .baby-data {
       display: flex;
       flex-direction: row;
       justify-content: space-around;
