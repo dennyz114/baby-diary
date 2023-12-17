@@ -1,0 +1,12 @@
+@import "../../constants";
+
+.measurement-control {
+  width: inherit;
+  height: inherit;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+}

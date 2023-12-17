@@ -6,7 +6,7 @@ import {
   destructureDateObject
 } from '../../utils/dateUtils'
 import SelectComponent from '../selectComponent'
-import './ActionForm.scss'
+import './Form.scss'
 //@ts-ignore
 import InputMask from 'react-input-mask'
 
@@ -122,8 +122,8 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
   )
 
   return (
-    <div className={'action-form'}>
-      <h3 className={'action-form-title'}>{displayName}</h3>
+    <div className={'form-wrapper'}>
+      <h3 className={'form-title'}>{displayName}</h3>
 
       {error && <p className={'error-message'}>{error}</p>}
 
@@ -168,7 +168,7 @@ const ActionForm = ({ action, existingAction, onSave, onCancel }: ActionFormProp
           />
         </div>
       </div>
-      <div className={'action-form-footer'}>
+      <div className={'form-footer'}>
         <button className={'button'} onClick={onSaveAction} disabled={isSaving}>{isSaving ? 'Guardando...' : 'Guardar'}</button>
         <button className={'button'} onClick={onCancel}>Cancelar</button>
       </div>

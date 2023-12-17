@@ -20,8 +20,9 @@ export const deleteAction = async (actionId: string) => {
   return await doDelete(`${URL}${ACTION_PATH}/${actionId}`)
 }
 
-// REST methods
 
+
+// REST Util methods
 const doGet = async (url: string) => {
   const response = await fetch(url, {
     method: 'GET',

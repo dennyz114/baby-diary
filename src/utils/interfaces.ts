@@ -9,3 +9,17 @@ export interface ActionType {
   note?: string
   createDate: Date
 }
+
+export interface NoteItemType {
+  noteId?: string
+  noteData: string
+  createDate: Date
+}
+
+export interface MeasurementItemType {
+  measurementItemId: string
+  height: string
+  weight: string
+  headCircumference: string
+  date: Date
+}

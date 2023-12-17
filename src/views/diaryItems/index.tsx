@@ -3,13 +3,13 @@ import { ActionType } from '../../utils/interfaces'
 import moment from 'moment'
 import ActionItem from '../../components/actionItem'
 
-import { Fab, Action } from 'react-tiny-fab';
+import { FabButton, Action, buttonStyle} from '../../components/fabButton'
+
 import 'react-tiny-fab/dist/styles.css';
 import { ACTION, AVAILABLE_ACTIONS } from '../../utils/ACTION'
-import { PRIMARY_COLOR, TERTIARTY_COLOR } from '../../styleConstants'
 
 import './DiaryItems.scss'
-import ActionForm from '../../components/actionForm'
+import ActionForm from '../../components/forms/actionForm'
 import { getActionsByDate, saveAction, deleteAction } from '../../utils/apiUtils'
 // @ts-ignore
 import { v4 as uuidv4 } from 'uuid'
@@ -17,11 +17,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { orderBy } from 'lodash'
 import SelectComponent from '../../components/selectComponent'
 import { DATE_DASH_FORMAT, getDateDashFormatString, getDatesUntilNowSince } from '../../utils/dateUtils'
-import { BABY_BIRTHDAY } from '../../utils/constants'
+import { BABY_BIRTHDAY } from '../../utils/babyConstants'
 import ModalComponent from '../../components/modalComponent'
+import DeleteConfirmationModal from '../../components/modalComponent/DeleteConfirmationModal'
 
-const buttonPositionStyle = { bottom: 100, margin: 5, right: 25, zIndex: 0 }
-const buttonStyle = { backgroundColor: PRIMARY_COLOR, color: TERTIARTY_COLOR, zIndex: 0, fontSize: 50 }
+
 const ACTION_OPTION_FILTER_ALL = {value: 'ALL', label: 'Todas'}
 
 const datesSinceBirthDay = getDatesUntilNowSince(BABY_BIRTHDAY)
@@ -138,7 +138,7 @@ const DiaryItems = () => {
         )
       )}
 
-      <Fab icon={'+'} style={buttonPositionStyle} mainButtonStyles={buttonStyle} >
+      <FabButton icon={'+'}>
         {
           Object.values(AVAILABLE_ACTIONS).map((action) => (
             <Action
@@ -151,17 +151,13 @@ const DiaryItems = () => {
             </Action>
           ))
         }
-      </Fab>
+      </FabButton>
 
-      <ModalComponent
-        body={
-          <div>
-            <h3>¿Estas seguro que quieres borrar esta accion?</h3>
-            <button className={'button'} onClick={onDeleteAction} disabled={isDeleting}>{isDeleting ? 'Eliminando...' : 'Eliminar'}</button>
-            <button className={'button'} onClick={onCancelAction}>Cancelar</button>
-          </div>
-        }
+      <DeleteConfirmationModal
+        isDeleting={isDeleting}
         isOpen={!!actionToDelete}
+        onDeleteAction={onDeleteAction}
+        onCancelAction={onCancelAction}
       />
 
       <ModalComponent

@@ -5,7 +5,7 @@ import {
   BABY_BORN_WEIGHT,
   BABY_MIDDLE_NAME,
   BABY_NAME
-} from '../../utils/constants'
+} from '../../utils/babyConstants'
 import './BabyInfo.scss'
 import BabyImage from '../../images/Alice.jpeg'
 import { getStringDateFullFormat, getTimeSinceBornUntilNow } from '../../utils/dateUtils'

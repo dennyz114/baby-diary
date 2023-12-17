@@ -1,5 +1,5 @@
 import moment from 'moment/moment'
-import { TIME_ZONE } from './constants'
+import { TIME_ZONE } from './babyConstants'
 // @ts-ignore
 import localizationEs from 'moment/locale/es'
 // @ts-ignore
